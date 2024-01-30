@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OFGmCoreCS.LoggerSimple;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +17,7 @@ namespace OFGmCoreCS.ConsoleSimple
             return command;
         }
 
-        public string ExecuteCommand(string command)
+        public AbstractCommand.Feedback ExecuteCommand(string command)
         {
             string[] args = command.Split(' ');
             string commandName = args[0].ToUpper();
@@ -28,16 +29,17 @@ namespace OFGmCoreCS.ConsoleSimple
                 {
                     try
                     {
-                        return abstractCommand.Execute(args) + Environment.NewLine;
+                        AbstractCommand.Feedback feedback = abstractCommand.Execute(args);
+                        return new AbstractCommand.Feedback(feedback.message + Environment.NewLine, feedback.loggerLevel);
                     }
                     catch (Exception ex)
                     {
-                        return ex.Message;
+                        return new AbstractCommand.Feedback(ex.Message, LoggerLevel.Error);
                     }
                 }
             }
 
-            return "Command not found" + Environment.NewLine;
+            return new AbstractCommand.Feedback("Command not found" + Environment.NewLine, LoggerLevel.Warn);
         }
     }
 }

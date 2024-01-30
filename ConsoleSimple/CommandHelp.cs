@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OFGmCoreCS.LoggerSimple;
+using System;
 
 namespace OFGmCoreCS.ConsoleSimple
 {
@@ -11,7 +12,7 @@ namespace OFGmCoreCS.ConsoleSimple
             this.commandHandler = commandHandler;
         }
 
-        public override string Execute(string[] args)
+        public override Feedback Execute(string[] args)
         {
             base.Execute(args);
 
@@ -33,11 +34,11 @@ namespace OFGmCoreCS.ConsoleSimple
                             help += Environment.NewLine + $"  {argInput.name} - {argInput.description}";
                         }
 
-                        return help;
+                        return new Feedback(help, LoggerLevel.Info);
                     }
                 }
 
-                return "Command not found";
+                return new Feedback("Command not found", LoggerLevel.Warn);
             }
             else
             {
@@ -46,7 +47,7 @@ namespace OFGmCoreCS.ConsoleSimple
                 foreach (AbstractCommand abstractCommand in commandHandler.commands)
                     commands += Environment.NewLine + $"{abstractCommand.name} - {abstractCommand.description}";
 
-                return commands;
+                return new Feedback(commands, LoggerLevel.Info);
             }
         }
     }

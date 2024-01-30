@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OFGmCoreCS.LoggerSimple;
+using System;
 
 namespace OFGmCoreCS.ConsoleSimple
 {
@@ -8,19 +9,19 @@ namespace OFGmCoreCS.ConsoleSimple
         public readonly string description;
         public readonly ArgsInput[] argsInputs;
 
-        public AbstractCommand(string name, string description, params ArgsInput[] argsInput)
+        public AbstractCommand(string name, string description, params ArgsInput[] argsInputs)
         {
             this.name = name.ToUpper();
             this.description = description;
-            this.argsInputs = argsInput;
+            this.argsInputs = argsInputs;
         }
 
-        public virtual string Execute(string[] args)
+        public virtual Feedback Execute(string[] args)
         {
             if (args.Length != argsInputs.Length)
                 throw new ArgumentException("The number of arguments is incorrect.");
 
-            return "The number of arguments is correct.";
+            return new Feedback("The number of arguments is correct.", LoggerLevel.Info);
         }
 
         public class ArgsInput
@@ -32,6 +33,18 @@ namespace OFGmCoreCS.ConsoleSimple
             {
                 this.name = $"[{name}]";
                 this.description = description;
+            }
+        }
+
+        public class Feedback
+        {
+            public string message;
+            public LoggerLevel loggerLevel;
+
+            public Feedback(string message, LoggerLevel loggerLevel)
+            {
+                this.message = message;
+                this.loggerLevel = loggerLevel;
             }
         }
     }
