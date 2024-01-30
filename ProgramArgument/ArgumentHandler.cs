@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace OFGmCoreCS.Argument
+namespace OFGmCoreCS.ProgramArgument
 {
     public class ArgumentHandler
     {
-        public HashSet<AbstractArgument> arguments;
+        public readonly HashSet<AbstractArgument> arguments;
 
-        public ArgumentHandler(HashSet<AbstractArgument> Arguments)
+        public ArgumentHandler(HashSet<AbstractArgument> arguments)
         {
-            this.arguments = Arguments;
+            this.arguments = arguments;
         }
 
         public void ArgumentInvoke(string argumentName)
@@ -24,7 +23,7 @@ namespace OFGmCoreCS.Argument
 
         public void ArgumentInvoke(string argumentName, string argumentValue)
         {
-            foreach (Argument argument in arguments.Cast<Argument>())
+            foreach (AbstractArgument argument in arguments)
             {
                 if (argument.name == argumentName)
                     argument.Invoke(argumentValue);
@@ -33,19 +32,7 @@ namespace OFGmCoreCS.Argument
 
         public string ArgumentsList(string[] args)
         {
-            if (args != null)
-            {
-                string argumentsList = "";
-
-                foreach (string argument in args)
-                {
-                    argumentsList += ", " + argument;
-                }
-
-                if (argumentsList.Length > 1)
-                    return argumentsList.Remove(0, 2);
-            }
-            return "";
+            return args != null ? string.Join(", ", args) : "";
         }
 
         public void ArgumentsInvoke(string[] args)
@@ -58,20 +45,19 @@ namespace OFGmCoreCS.Argument
                     {
                         foreach (AbstractArgument argument in arguments)
                         {
-                            if (arg.Remove(0, 1) == argument.name)
-                            {
-                                ((Argument)argument).Invoke(null);
-                                break;
-                            }
-                            else if (arg.Split('=')[0].Remove(0, 2) == argument.name)
+                            if (arg.Substring(1) == argument.name)
+                                argument.Invoke(null);
+                            else if (arg.Split('=')[0].Substring(2) == argument.name)
                             {
                                 if (argument is ArgumentValue)
                                     ((ArgumentValue)argument).Invoke(arg.Split('=')[1]);
-                                else
+                                else if (argument is ArgumentValueBool)
                                     ((ArgumentValueBool)argument).Invoke(Convert.ToBoolean(arg.Split('=')[1]));
-
-                                break;
                             }
+                            else
+                                continue;
+
+                            break;
                         }
                     }
                 }

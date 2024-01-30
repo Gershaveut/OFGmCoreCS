@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OFGmCoreCS.Logger
+namespace OFGmCoreCS.LoggerSimple
 {
     /// <summary>
     /// Класс <see cref="Logger"/> предоставляет простой логгер.
@@ -73,9 +73,9 @@ namespace OFGmCoreCS.Logger
         public string LogWrite(string message, LoggerLevel level)
         {
             message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
-
+            
             if (consoleOutput)
-                Console.WriteLine(message);
+                System.Console.WriteLine(message);
 
             if (logText != "")
                 message = "\n" + message;

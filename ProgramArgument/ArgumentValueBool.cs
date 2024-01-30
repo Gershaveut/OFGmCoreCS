@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OFGmCoreCS.Argument
+namespace OFGmCoreCS.ProgramArgument
 {
     public class ArgumentValueBool : AbstractArgument
     {

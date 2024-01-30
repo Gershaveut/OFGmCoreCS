@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace OFGmCoreCS.Logger
+namespace OFGmCoreCS.LoggerSimple
 {
     public class LoggerLevelColor
     {

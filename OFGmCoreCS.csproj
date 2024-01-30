@@ -43,18 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Argument\AbstractArgument.cs" />
-    <Compile Include="Argument\Argument.cs" />
-    <Compile Include="Argument\ArgumentHandler.cs" />
-    <Compile Include="Argument\ArgumentValue.cs" />
-    <Compile Include="Argument\ArgumentValueBool.cs" />
-    <Compile Include="Logger\Logger.cs" />
-    <Compile Include="Logger\LoggerLevel.cs" />
-    <Compile Include="Logger\LoggerLevelColor.cs" />
+    <Compile Include="ProgramArgument\AbstractArgument.cs" />
+    <Compile Include="ProgramArgument\ArgumentSimple.cs" />
+    <Compile Include="ProgramArgument\ArgumentHandler.cs" />
+    <Compile Include="ProgramArgument\ArgumentValue.cs" />
+    <Compile Include="ProgramArgument\ArgumentValueBool.cs" />
+    <Compile Include="ConsoleSimple\AbstractCommand.cs" />
+    <Compile Include="ConsoleSimple\CommandHandler.cs" />
+    <Compile Include="ConsoleSimple\CommandHelp.cs" />
+    <Compile Include="ConsoleSimple\Console.cs" />
+    <Compile Include="LoggerSimple\Logger.cs" />
+    <Compile Include="LoggerSimple\LoggerLevel.cs" />
+    <Compile Include="LoggerSimple\LoggerLevelColor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace OFGmCoreCS.Logger
+﻿namespace OFGmCoreCS.LoggerSimple
 {
     public enum LoggerLevel
     {

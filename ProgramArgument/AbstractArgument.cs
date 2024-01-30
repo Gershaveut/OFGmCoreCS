@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace OFGmCoreCS.Argument
+﻿namespace OFGmCoreCS.ProgramArgument
 {
     public abstract class AbstractArgument
     {
-        public string name;
+        public readonly string name;
 
         protected readonly object action;
 
