@@ -10,17 +10,27 @@ namespace OFGmCoreCS.Logger
         /// <summary>
         /// Текст лога.
         /// </summary>
-        public string logText = "";
+        private string logText = "";
+
+        public string LogText
+        {
+            get { return logText; }
+            set { logText = value; LogChange?.Invoke(value); }
+        }
 
         /// <summary>
         /// Делегат обработчика лога.
         /// </summary>
-        public delegate void LogHandler(string message);
+        public delegate void LogChangeHandler(string message);
+
+        public delegate void LogWrittenHandler(string message, LoggerLevel level);
 
         /// <summary>
         /// Событие изменения лога.
         /// </summary>
-        public event LogHandler LogChange;
+        public event LogChangeHandler LogChange;
+
+        public event LogWrittenHandler LogWritten;
 
         /// <summary>
         /// Вывод в консоль.
@@ -46,7 +56,7 @@ namespace OFGmCoreCS.Logger
         /// Создаёт логгер с переданными параметрами.
         /// </summary>
         /// <param name="loggerProperties">Настройки логгера.</param>
-        public Logger(LoggerProperties loggerProperties)
+        public Logger(Properties loggerProperties)
         {
             consoleOutput = loggerProperties.consoleOutput;
             debug = loggerProperties.debug;
@@ -67,17 +77,20 @@ namespace OFGmCoreCS.Logger
             if (consoleOutput)
                 Console.WriteLine(message);
 
-            if ((level == LoggerLevel.Debug && debug) || level != LoggerLevel.Debug)
-                logText += "\n" + message;
+            if (logText != "")
+                message = "\n" + message;
 
-            LogChange?.Invoke(message);
+            if ((level == LoggerLevel.Debug && debug) || level != LoggerLevel.Debug)
+                logText += message;
+
+            LogWritten.Invoke(message, level);
             return message;
         }
-
+        
         /// <summary>
         /// Вложенный класс для настройки логгера.
         /// </summary>
-        public class LoggerProperties
+        public class Properties
         {
             /// <summary>
             /// Вывод в консоль.
@@ -103,8 +116,8 @@ namespace OFGmCoreCS.Logger
             /// Значение <see cref="consoleOutput"/>.
             /// </summary>
             /// <param name="consoleOutput">Вывод в консоль.</param>
-            /// <returns>Свой экземпляр <see cref="LoggerProperties"/>.</returns>
-            public LoggerProperties ConsoleOutput(bool consoleOutput)
+            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
+            public Properties ConsoleOutput(bool consoleOutput)
             {
                 this.consoleOutput = consoleOutput;
                 return this;
@@ -113,8 +126,8 @@ namespace OFGmCoreCS.Logger
             /// <summary>
             /// Включает отладочный режим.
             /// </summary>
-            /// <returns>Свой экземпляр <see cref="LoggerProperties"/>.</returns>
-            public LoggerProperties Debug()
+            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
+            public Properties Debug()
             {
                 debug = true;
                 return this;
@@ -124,8 +137,8 @@ namespace OFGmCoreCS.Logger
             /// Устанавливает префикс для каждой записи лога.
             /// </summary>
             /// <param name="text">Текст префикса.</param>
-            /// <returns>Свой экземпляр <see cref="LoggerProperties"/>.</returns>
-            public LoggerProperties Prefix(string text)
+            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
+            public Properties Prefix(string text)
             {
                 prefix = text;
                 return this;
@@ -135,8 +148,8 @@ namespace OFGmCoreCS.Logger
             /// Устанавливает суффикс для каждой записи лога.
             /// </summary>
             /// <param name="text">Текст суффикса.</param>
-            /// <returns>Свой экземпляр <see cref="LoggerProperties"/>.</returns>
-            public LoggerProperties Suffix(string text)
+            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
+            public Properties Suffix(string text)
             {
                 suffix = text;
                 return this;

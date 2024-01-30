@@ -50,7 +50,11 @@
     <Compile Include="Argument\ArgumentValueBool.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\LoggerLevel.cs" />
+    <Compile Include="Logger\LoggerLevelColor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

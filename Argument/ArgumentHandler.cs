@@ -42,7 +42,8 @@ namespace OFGmCoreCS.Argument
                     argumentsList += ", " + argument;
                 }
 
-                return argumentsList.Remove(0, 2);
+                if (argumentsList.Length > 1)
+                    return argumentsList.Remove(0, 2);
             }
             return "";
         }
@@ -53,21 +54,24 @@ namespace OFGmCoreCS.Argument
             {
                 foreach (string arg in args)
                 {
-                    foreach (AbstractArgument argument in arguments)
+                    if (arg.Length > 1)
                     {
-                        if (arg.Remove(0, 1) == argument.name)
+                        foreach (AbstractArgument argument in arguments)
                         {
-                            ((Argument)argument).Invoke(null);
-                            break;
-                        }
-                        else if (arg.Split('=')[0].Remove(0, 2) == argument.name)
-                        {
-                            if (argument is ArgumentValue)
-                                ((ArgumentValue)argument).Invoke(arg.Split('=')[1]);
-                            else
-                                ((ArgumentValueBool)argument).Invoke(Convert.ToBoolean(arg.Split('=')[1]));
+                            if (arg.Remove(0, 1) == argument.name)
+                            {
+                                ((Argument)argument).Invoke(null);
+                                break;
+                            }
+                            else if (arg.Split('=')[0].Remove(0, 2) == argument.name)
+                            {
+                                if (argument is ArgumentValue)
+                                    ((ArgumentValue)argument).Invoke(arg.Split('=')[1]);
+                                else
+                                    ((ArgumentValueBool)argument).Invoke(Convert.ToBoolean(arg.Split('=')[1]));
 
-                            break;
+                                break;
+                            }
                         }
                     }
                 }
