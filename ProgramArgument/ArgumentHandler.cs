@@ -5,35 +5,64 @@ namespace OFGmCoreCS.ProgramArgument
 {
     public class ArgumentHandler
     {
-        public readonly HashSet<AbstractArgument> arguments;
+        public readonly HashSet<IArgument> arguments;
 
-        public ArgumentHandler(HashSet<AbstractArgument> arguments)
+        public delegate void ArgumentType(IArgument argument, string arg);
+        public ArgumentType argumentType;
+
+        public ArgumentHandler(HashSet<IArgument> arguments)
         {
             this.arguments = arguments;
+
+            argumentType += IsString;
+            argumentType += IsBool;
+            argumentType += IsInt;
+            argumentType += IsDouble;
         }
 
         public void ArgumentInvoke(string argumentName)
         {
-            foreach (AbstractArgument argument in arguments)
+            foreach (Argument argument in arguments)
             {
                 if (argument.name == argumentName)
-                    argument.Invoke(null);
+                    argument.Invoke();
             }
         }
 
         public void ArgumentInvoke(string argumentName, string argumentValue)
         {
-            foreach (AbstractArgument argument in arguments)
+            foreach (Argument<string> argument in arguments)
             {
                 if (argument.name == argumentName)
                     argument.Invoke(argumentValue);
             }
         }
 
-        public string ArgumentsList(string[] args)
+        public void ArgumentInvoke(string argumentName, bool argumentValue)
         {
-            return args != null ? string.Join(", ", args) : "";
+            foreach (Argument<bool> argument in arguments)
+            {
+                if (argument.name == argumentName)
+                    argument.Invoke(argumentValue);
+            }
         }
+
+        public static string ArgumentsList(string[] args) => args != null ? string.Join(", ", args) : "";
+        
+        public static void IsString(IArgument argument, string arg) => ArgumentInvoke(argument, arg);
+        public static void IsBool(IArgument argument, string arg) => ArgumentInvoke(argument, Convert.ToBoolean(arg));
+        public static void IsInt(IArgument argument, string arg) => ArgumentInvoke(argument, Convert.ToInt64(arg));
+        public static void IsDouble(IArgument argument, string arg) => ArgumentInvoke(argument, Convert.ToDouble(arg));
+
+        private static void ArgumentInvoke<T>(IArgument argument, T arg)
+        {
+            if (argument is Argument<T> argumentType)
+                argumentType.Invoke(arg);
+        }
+
+        public static void ArgumentInvoke<T>(Action<T> argument, T arg) => argument.Invoke(arg);
+
+        public static void ArgumentInvoke(Action argument) => argument.Invoke();
 
         public void ArgumentsInvoke(string[] args)
         {
@@ -43,17 +72,12 @@ namespace OFGmCoreCS.ProgramArgument
                 {
                     if (arg.Length > 1)
                     {
-                        foreach (AbstractArgument argument in arguments)
+                        foreach (IArgument argument in arguments)
                         {
-                            if (arg.Substring(1) == argument.name)
-                                argument.Invoke(null);
-                            else if (arg.Split('=')[0].Substring(2) == argument.name)
-                            {
-                                if (argument is ArgumentValue)
-                                    ((ArgumentValue)argument).Invoke(arg.Split('=')[1]);
-                                else if (argument is ArgumentValueBool)
-                                    ((ArgumentValueBool)argument).Invoke(Convert.ToBoolean(arg.Split('=')[1]));
-                            }
+                            if (arg.Substring(1) == argument.Name)
+                                ((Argument)argument).Invoke();
+                            else if (arg.Split('=')[0].Substring(2) == argument.Name)
+                                argumentType(argument, arg.Split('=')[1]);
                             else
                                 continue;
 
