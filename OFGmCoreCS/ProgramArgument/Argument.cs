@@ -39,7 +39,7 @@ namespace OFGmCoreCS.ProgramArgument
             this.action = action;
         }
 
-        public string Name => throw new NotImplementedException();
+        public string Name => name;
 
         public void Invoke(T value)
         {

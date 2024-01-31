@@ -37,6 +37,8 @@ namespace OFGmCoreCS.LoggerSimple
         /// </summary>
         public bool consoleOutput;
 
+        public bool messageMod;
+
         /// <summary>
         /// Вывод сообщений с уровнем <see cref="LoggerLevel.Debug"/> в лог.
         /// </summary>
@@ -72,18 +74,19 @@ namespace OFGmCoreCS.LoggerSimple
         /// <returns>Записанное сообщение.</returns>
         public string LogWrite(string message, LoggerLevel level)
         {
-            message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
+            if (messageMod)
+                message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
             
             if (consoleOutput)
                 System.Console.WriteLine(message);
 
-            if (logText != "")
+            if (LogText != "")
                 message = "\n" + message;
 
             if ((level == LoggerLevel.Debug && debug) || level != LoggerLevel.Debug)
-                logText += message;
+                LogText += message;
 
-            LogWritten.Invoke(message, level);
+            LogWritten?.Invoke(message, level);
             return message;
         }
         
@@ -95,22 +98,24 @@ namespace OFGmCoreCS.LoggerSimple
             /// <summary>
             /// Вывод в консоль.
             /// </summary>
-            public bool consoleOutput = true;
+            internal bool consoleOutput = true;
+
+            internal bool messageMod = true;
 
             /// <summary>
             /// Вывод сообщений с уровнем <see cref="LoggerLevel.Debug"/> в лог.
             /// </summary>
-            public bool debug;
+            internal bool debug;
 
             /// <summary>
             /// Префикс, добавляемый в начало записи лога.
             /// </summary>
-            public string prefix;
+            internal string prefix;
 
             /// <summary>
             /// Суффикс, добавляемый в конец записи лога.
             /// </summary>
-            public string suffix;
+            internal string suffix;
 
             /// <summary>
             /// Значение <see cref="consoleOutput"/>.
@@ -120,6 +125,12 @@ namespace OFGmCoreCS.LoggerSimple
             public Properties ConsoleOutput(bool consoleOutput)
             {
                 this.consoleOutput = consoleOutput;
+                return this;
+            }
+
+            public Properties MessageMod(bool messageMod)
+            {
+                this.messageMod = messageMod;
                 return this;
             }
 

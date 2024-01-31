@@ -10,6 +10,8 @@ namespace OFGmCoreCS.ConsoleSimple
         public CommandHelp(CommandHandler commandHandler) : base("help", "Output of reference information about commands.", new ArgsInput("command", "the command that the user is interested in."))
         {
             this.commandHandler = commandHandler;
+
+            needArgs = 0;
         }
 
         public override Feedback Execute(string[] args)
@@ -22,7 +24,7 @@ namespace OFGmCoreCS.ConsoleSimple
                 {
                     if (abstractCommand.name == args[0])
                     {
-                        string help = description + Environment.NewLine + this.name;
+                        string help = description + Environment.NewLine + Environment.NewLine + name;
 
                         foreach (ArgsInput argInput in abstractCommand.argsInputs)
                         {
@@ -42,7 +44,7 @@ namespace OFGmCoreCS.ConsoleSimple
             }
             else
             {
-                string commands = $"To get information about a specific command, type {name} {argsInputs[0].name}";
+                string commands = $"To get information about a specific command, type {name} {argsInputs[0].name}" + Environment.NewLine;
 
                 foreach (AbstractCommand abstractCommand in commandHandler.commands)
                     commands += Environment.NewLine + $"{abstractCommand.name} - {abstractCommand.description}";

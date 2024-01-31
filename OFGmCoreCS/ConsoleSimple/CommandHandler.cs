@@ -9,7 +9,10 @@ namespace OFGmCoreCS.ConsoleSimple
     {
         public readonly HashSet<AbstractCommand> commands = new HashSet<AbstractCommand>();
 
-        public CommandHandler() { }
+        public CommandHandler() 
+        {
+            commands.Add(new CommandHelp(this));
+        }
 
         public AbstractCommand Register(AbstractCommand command)
         {

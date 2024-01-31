@@ -19,50 +19,58 @@ namespace OFGmCoreCS.ProgramArgument
             argumentType += IsInt;
             argumentType += IsDouble;
         }
+        
+        public static string ArgumentsList(string[] args) => args != null ? string.Join(", ", args) : "";
+
+        public static void IsString(IArgument argument, string arg) => ArgumentInvoke(argument, arg);
+
+        public static void IsBool(IArgument argument, string arg)
+        {
+            if (argument is Argument<bool> argumentType)
+                ArgumentInvoke(argumentType, Convert.ToBoolean(arg));
+        }
+
+        public static void IsInt(IArgument argument, string arg)
+        {
+            if (argument is Argument<int> argumentType)
+                ArgumentInvoke(argumentType, Convert.ToInt32(arg));
+        }
+
+        public static void IsDouble(IArgument argument, string arg)
+        {
+            if (argument is Argument<double> argumentType)
+                ArgumentInvoke(argumentType, Convert.ToDouble(arg));
+        }
 
         public void ArgumentInvoke(string argumentName)
         {
-            foreach (Argument argument in arguments)
+            foreach (IArgument argument in arguments)
             {
-                if (argument.name == argumentName)
-                    argument.Invoke();
+                if (argument.Name == argumentName)
+                    if (argument is Argument argumentType)
+                        argumentType.Invoke();
             }
         }
 
-        public void ArgumentInvoke(string argumentName, string argumentValue)
+        public void ArgumentInvoke<T>(string argumentName, T argumentValue)
         {
-            foreach (Argument<string> argument in arguments)
+            foreach (IArgument argument in arguments)
             {
-                if (argument.name == argumentName)
-                    argument.Invoke(argumentValue);
+                if (argument.Name == argumentName)
+                    if (argument is Argument<T> argumentType)
+                        argumentType.Invoke(argumentValue);
             }
         }
 
-        public void ArgumentInvoke(string argumentName, bool argumentValue)
-        {
-            foreach (Argument<bool> argument in arguments)
-            {
-                if (argument.name == argumentName)
-                    argument.Invoke(argumentValue);
-            }
-        }
-
-        public static string ArgumentsList(string[] args) => args != null ? string.Join(", ", args) : "";
-        
-        public static void IsString(IArgument argument, string arg) => ArgumentInvoke(argument, arg);
-        public static void IsBool(IArgument argument, string arg) => ArgumentInvoke(argument, Convert.ToBoolean(arg));
-        public static void IsInt(IArgument argument, string arg) => ArgumentInvoke(argument, Convert.ToInt64(arg));
-        public static void IsDouble(IArgument argument, string arg) => ArgumentInvoke(argument, Convert.ToDouble(arg));
-
-        private static void ArgumentInvoke<T>(IArgument argument, T arg)
+        public static void ArgumentInvoke<T>(IArgument argument, T arg)
         {
             if (argument is Argument<T> argumentType)
                 argumentType.Invoke(arg);
         }
 
-        public static void ArgumentInvoke<T>(Action<T> argument, T arg) => argument.Invoke(arg);
+        public static void ArgumentInvoke<T>(Argument<T> argument, T arg) => argument.Invoke(arg);
 
-        public static void ArgumentInvoke(Action argument) => argument.Invoke();
+        public static void ArgumentInvoke(Argument argument) => argument.Invoke();
 
         public void ArgumentsInvoke(string[] args)
         {

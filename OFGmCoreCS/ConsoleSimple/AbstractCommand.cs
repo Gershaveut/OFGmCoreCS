@@ -8,17 +8,19 @@ namespace OFGmCoreCS.ConsoleSimple
         public readonly string name;
         public readonly string description;
         public readonly ArgsInput[] argsInputs;
+        protected int needArgs;
 
         public AbstractCommand(string name, string description, params ArgsInput[] argsInputs)
         {
             this.name = name.ToUpper();
             this.description = description;
             this.argsInputs = argsInputs;
+            needArgs = argsInputs.Length;
         }
 
         public virtual Feedback Execute(string[] args)
         {
-            if (args.Length != argsInputs.Length)
+            if (args.Length < needArgs)
                 throw new ArgumentException("The number of arguments is incorrect.");
 
             return new Feedback("The number of arguments is correct.", LoggerLevel.Info);
@@ -31,7 +33,7 @@ namespace OFGmCoreCS.ConsoleSimple
 
             public ArgsInput(string name, string description)
             {
-                this.name = $"[{name}]";
+                this.name = name;
                 this.description = description;
             }
         }

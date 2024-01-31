@@ -13,10 +13,13 @@ namespace OFGmCoreCS.ConsoleSimple
             this.commandHandler = commandHandler;
         }
 
-        public void CommandWrite(string command)
+        public AbstractCommand.Feedback CommandWrite(string command)
         {
+            logger.LogWrite(command, LoggerLevel.Info);
             AbstractCommand.Feedback feedback = commandHandler.ExecuteCommand(command);
             logger.LogWrite(feedback.message, feedback.loggerLevel);
+
+            return feedback;
         }
     }
 }
