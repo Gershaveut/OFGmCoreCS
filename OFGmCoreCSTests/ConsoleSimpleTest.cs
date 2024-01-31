@@ -14,7 +14,7 @@ namespace OFGmCoreCSTests
 
             Assert.AreEqual(LoggerLevel.Info, console.CommandWrite("help").loggerLevel);
 
-            Assert.AreEqual(LoggerLevel.Info, console.CommandWrite("help HELP").loggerLevel);
+            Assert.AreEqual(LoggerLevel.Info, console.CommandWrite("help help").loggerLevel);
         }
     }
 }

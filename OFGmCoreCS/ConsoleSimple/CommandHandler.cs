@@ -22,7 +22,7 @@ namespace OFGmCoreCS.ConsoleSimple
 
         public AbstractCommand.Feedback ExecuteCommand(string command)
         {
-            string[] args = command.Split(' ');
+            string[] args = command.ToLower().Split(' ');
             string commandName = args[0].ToUpper();
             args = args.Skip(1).ToArray();
 

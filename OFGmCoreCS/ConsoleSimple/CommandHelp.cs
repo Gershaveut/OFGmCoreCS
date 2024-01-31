@@ -22,7 +22,7 @@ namespace OFGmCoreCS.ConsoleSimple
             {
                 foreach (AbstractCommand abstractCommand in commandHandler.commands)
                 {
-                    if (abstractCommand.name == args[0])
+                    if (abstractCommand.name == args[0].ToUpper())
                     {
                         string help = description + Environment.NewLine + Environment.NewLine + name;
 
