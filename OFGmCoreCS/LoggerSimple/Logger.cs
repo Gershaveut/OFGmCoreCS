@@ -64,6 +64,7 @@ namespace OFGmCoreCS.LoggerSimple
             debug = loggerProperties.debug;
             prefix = loggerProperties.prefix;
             suffix = loggerProperties.suffix;
+            messageMod = loggerProperties.messageMod;
         }
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace OFGmCoreCS.LoggerSimple
                 message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
             
             if (consoleOutput)
-                System.Console.WriteLine(message);
+                Console.WriteLine(message);
 
             if (LogText != "")
                 message = "\n" + message;
