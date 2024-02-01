@@ -15,7 +15,7 @@ namespace OFGmCoreCS.ConsoleSimple
             this.name = name.ToUpper();
             this.description = description;
             this.argsInputs = argsInputs;
-            needArgs = argsInputs.Length;
+            needArgs = argsInputs != null ? argsInputs.Length : 0;
         }
 
         public virtual Feedback Execute(string[] args)

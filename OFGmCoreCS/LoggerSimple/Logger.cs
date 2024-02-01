@@ -10,27 +10,27 @@ namespace OFGmCoreCS.LoggerSimple
         /// <summary>
         /// Текст лога.
         /// </summary>
-        private string logText = "";
+        private string text = "";
 
-        public string LogText
+        public string Text
         {
-            get { return logText; }
-            set { logText = value; LogChange?.Invoke(value); }
+            get { return text; }
+            set { text = value; LogChange?.Invoke(value); }
         }
 
         /// <summary>
         /// Делегат обработчика лога.
         /// </summary>
-        public delegate void LogChangeHandler(string message);
+        public delegate void ChangeHandler(string message);
 
-        public delegate void LogWrittenHandler(string message, LoggerLevel level);
+        public delegate void WrittenHandler(string message, LoggerLevel level);
 
         /// <summary>
         /// Событие изменения лога.
         /// </summary>
-        public event LogChangeHandler LogChange;
+        public event ChangeHandler LogChange;
 
-        public event LogWrittenHandler LogWritten;
+        public event WrittenHandler LogWritten;
 
         /// <summary>
         /// Вывод в консоль.
@@ -73,7 +73,7 @@ namespace OFGmCoreCS.LoggerSimple
         /// <param name="message">Сообщение для записи в лог.</param>
         /// <param name="level">Уровень логирования.</param>
         /// <returns>Записанное сообщение.</returns>
-        public string LogWrite(string message, LoggerLevel level)
+        public string Write(string message, LoggerLevel level)
         {
             if (messageMod)
                 message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
@@ -81,11 +81,11 @@ namespace OFGmCoreCS.LoggerSimple
             if (consoleOutput)
                 Console.WriteLine(message);
 
-            if (LogText != "")
+            if (Text != "")
                 message = "\n" + message;
 
             if ((level == LoggerLevel.Debug && debug) || level != LoggerLevel.Debug)
-                LogText += message;
+                Text += message;
 
             LogWritten?.Invoke(message, level);
             return message;

@@ -24,17 +24,24 @@ namespace OFGmCoreCS.ConsoleSimple
                 {
                     if (abstractCommand.name == args[0].ToUpper())
                     {
-                        string help = description + Environment.NewLine + Environment.NewLine + name;
+                        string help;
 
-                        foreach (ArgsInput argInput in abstractCommand.argsInputs)
+                        if (abstractCommand.argsInputs != null)
                         {
-                            help += $" [{argInput.name}]";
-                        }
+                            help = abstractCommand.description + Environment.NewLine + Environment.NewLine + abstractCommand.name;
 
-                        foreach (ArgsInput argInput in abstractCommand.argsInputs)
-                        {
-                            help += Environment.NewLine + $"  {argInput.name} - {argInput.description}";
+                            foreach (ArgsInput argInput in abstractCommand.argsInputs)
+                            {
+                                help += $" [{argInput.name}]";
+                            }
+
+                            foreach (ArgsInput argInput in abstractCommand.argsInputs)
+                            {
+                                help += Environment.NewLine + $"  {argInput.name} - {argInput.description}";
+                            }
                         }
+                        else
+                            help = abstractCommand.description + Environment.NewLine;
 
                         return new Feedback(help, LoggerLevel.Info);
                     }

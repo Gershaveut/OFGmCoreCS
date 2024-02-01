@@ -13,7 +13,7 @@ namespace OFGmCoreCSTests
             bool? testBool = null;
             int? testInt = null;
             double? testDouble = null;
-
+            
             HashSet<IArgument> arguments = new HashSet<IArgument>
             {
                 new Argument("testSimple", () => testSimple = true),
@@ -25,13 +25,13 @@ namespace OFGmCoreCSTests
 
             ArgumentHandler argumentHandler = new(arguments);
 
-            argumentHandler.ArgumentsInvoke(new string[] { "-testSimple", "--testString=pass", "--testBool=true", "--testInt=1", "--testDouble=1" });
+            argumentHandler.ArgumentsInvoke(new string[] { "-testSimple", "--testString=pass", "--testBool=true", "--testInt=1", "--testDouble=12345.6789" });
 
             Assert.IsTrue(testSimple);
             Assert.AreEqual("pass", testString);
             Assert.IsTrue(testBool);
             Assert.AreEqual(1, testInt);
-            Assert.AreEqual(1, testDouble);
+            Assert.AreEqual(12345.6789d, testDouble);
         }
 
         [TestMethod]

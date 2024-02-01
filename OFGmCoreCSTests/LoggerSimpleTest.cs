@@ -25,9 +25,9 @@ namespace OFGmCoreCSTests
             
             logger.LogChange += (message) => logChangeMessage = message;
 
-            logger.LogWrite("Test", LoggerLevel.Debug);
+            logger.Write("Test", LoggerLevel.Debug);
 
-            Assert.IsTrue(!string.IsNullOrEmpty(logger.LogText));
+            Assert.IsTrue(!string.IsNullOrEmpty(logger.Text));
 
             Assert.IsNotNull(logWrittenMessage);
             Assert.AreEqual(logWrittenLevel, LoggerLevel.Debug);
