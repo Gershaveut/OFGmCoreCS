@@ -1,4 +1,5 @@
-﻿using OFGmCoreCS.LoggerSimple;
+﻿using OFGmCoreCS.ConsoleSimple;
+using OFGmCoreCS.LoggerSimple;
 using Console = OFGmCoreCS.ConsoleSimple.Console;
 
 namespace OFGmCoreCSTests
@@ -13,6 +14,14 @@ namespace OFGmCoreCSTests
 
             Assert.AreEqual(LoggerLevel.Info, console.CommandWrite("help").loggerLevel);
             Assert.AreEqual(LoggerLevel.Info, console.CommandWrite("help help").loggerLevel);
+        }
+
+        [TestMethod]
+        public void TestCommandRegister()
+        {
+            CommandHandler handler = new CommandHandler();
+
+            handler.Register(new CommandHelp(handler));
         }
     }
 }
