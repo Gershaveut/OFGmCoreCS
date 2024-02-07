@@ -5,7 +5,12 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OFGmCoreCS", "OFGmCoreCS.csproj", "{60FE80C4-32AE-43B5-A301-87A08D1F06D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OFGmCoreCSTests", "..\OFGmCoreCSTests\OFGmCoreCSTests.csproj", "{D3F17A81-0547-4DC6-B24C-5650FA9C6E25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OFGmCoreCSTests", "..\OFGmCoreCSTests\OFGmCoreCSTests.csproj", "{D3F17A81-0547-4DC6-B24C-5650FA9C6E25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3271AD86-BB7C-49CC-A327-BDA87AA93663}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
