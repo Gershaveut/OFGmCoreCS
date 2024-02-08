@@ -41,27 +41,44 @@ namespace OFGmCoreCS.Util
 
         }
 
-        public void SaveFile()
+        public void SaveFile(string text, bool addText)
         {
+            FileText = text;
             string file = Path.Combine(loggerPath, fileName + DateTime.Now.ToShortDateString() + format);
 
-            File.WriteAllText(file, File.ReadAllText(file) + Environment.NewLine + FileText);
-            
+            File.WriteAllText(file, (File.Exists(file) && addText ? File.ReadAllText(file) + Environment.NewLine : "") + text);
+
+            FileSave?.Invoke(new FileInfo(file));
+        }
+
+        public void SaveFile(bool addText)
+        {
+            SaveFile(FileText, addText);
+        }
+
+        public void SaveFile()
+        {
+            SaveFile(FileText, true);
+        }
+
+        public void SaveLatest(string text)
+        {
+            FileText = text;
+            string file = Path.Combine(loggerPath, "latest" + format);
+
+            File.WriteAllText(file, text);
+
             FileSave?.Invoke(new FileInfo(file));
         }
 
         public void SaveLatest()
         {
-            string file = Path.Combine(loggerPath, "latest" + format);
-
-            File.WriteAllText(file, FileText);
-
-            FileSave?.Invoke(new FileInfo(file));
+            SaveLatest(FileText);
         }
 
-        public void Write(string text)
+        public void WriteLine(string text)
         {
-            FileText += text;
+            FileText += Environment.NewLine + text;
 
             FileWritten?.Invoke(FileText);
 

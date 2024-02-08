@@ -53,7 +53,7 @@ namespace OFGmCoreCS.LoggerSimple
                 Console.WriteLine(message);
 
             if (Text != "")
-                message = "\n" + message;
+                message = Utils.NewLine(message);
 
             if ((level == LoggerLevel.Debug && debug) || level != LoggerLevel.Debug)
                 Text += message;
