@@ -1,4 +1,5 @@
 ﻿using OFGmCoreCS.LoggerSimple;
+using OFGmCoreCS.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace OFGmCoreCS.ConsoleSimple
             if (commands.All(c => c.name != command.name))
                 commands.Add(command);
             else
-                throw new CopyCommands();
+                throw new ObjectAlreadyExistsException();
 
             CommandRegistered?.Invoke(command);
             return command;
@@ -57,13 +58,5 @@ namespace OFGmCoreCS.ConsoleSimple
 
             return new AbstractCommand.Feedback("Command not found" + Environment.NewLine, LoggerLevel.Warn);
         }
-    }
-}
-
-public class CopyCommands : Exception
-{
-    public CopyCommands() : base("A command with this name is already registered")
-    {
-
     }
 }

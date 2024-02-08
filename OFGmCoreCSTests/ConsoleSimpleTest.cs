@@ -21,7 +21,17 @@ namespace OFGmCoreCSTests
         {
             CommandHandler handler = new CommandHandler();
 
-            handler.Register(new CommandHelp(handler));
+            handler.Register(new TestCommand());
+
+            handler.ExecuteCommand("test");
+        }
+
+        class TestCommand : AbstractCommand
+        {
+            public TestCommand() : base("test", "Test command.", null)
+            {
+
+            }
         }
     }
 }
