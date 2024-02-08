@@ -13,16 +13,14 @@ namespace OFGmCoreCS.ConsoleSimple
             this.commandHandler = commandHandler;
         }
 
-        public Console(Logger logger)
+        public Console(Logger logger) : this(logger, new CommandHandler())
         {
-            this.logger = logger;
-            commandHandler = new CommandHandler();
+            
         }
 
-        public Console()
+        public Console() : this(new Logger(new Logger.Properties()))
         {
-            logger = new Logger(new Logger.Properties());
-            commandHandler = new CommandHandler();
+            
         }
 
         public AbstractCommand.Feedback CommandWrite(string command)

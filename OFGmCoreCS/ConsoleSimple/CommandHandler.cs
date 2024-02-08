@@ -2,13 +2,16 @@
 using OFGmCoreCS.Util;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace OFGmCoreCS.ConsoleSimple
 {
     public class CommandHandler
     {
-        public readonly HashSet<AbstractCommand> commands = new HashSet<AbstractCommand>();
+        private readonly HashSet<AbstractCommand> commands = new HashSet<AbstractCommand>();
+
+        public ReadOnlyCollection<AbstractCommand> Commands { get { return commands.ToList().AsReadOnly(); } }
 
         public delegate void RegisterHandler(AbstractCommand command);
         public delegate void ExecuteHandler(AbstractCommand command, string[] args);

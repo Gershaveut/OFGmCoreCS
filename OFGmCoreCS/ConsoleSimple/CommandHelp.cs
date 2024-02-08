@@ -20,7 +20,7 @@ namespace OFGmCoreCS.ConsoleSimple
 
             if (args.Length > 0)
             {
-                foreach (AbstractCommand abstractCommand in commandHandler.commands)
+                foreach (AbstractCommand abstractCommand in commandHandler.Commands)
                 {
                     if (abstractCommand.name == args[0].ToUpper())
                     {
@@ -53,7 +53,7 @@ namespace OFGmCoreCS.ConsoleSimple
             {
                 string commands = $"To get information about a specific command, type {name} {argsInputs[0].name}" + Environment.NewLine;
 
-                foreach (AbstractCommand abstractCommand in commandHandler.commands)
+                foreach (AbstractCommand abstractCommand in commandHandler.Commands)
                     commands += Environment.NewLine + $"{abstractCommand.name} - {abstractCommand.description}";
 
                 return new Feedback(commands, LoggerLevel.Info);
