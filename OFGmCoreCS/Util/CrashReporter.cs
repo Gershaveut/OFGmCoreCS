@@ -8,14 +8,21 @@ namespace OFGmCoreCS.Util
         {
             string report = "";
             
-            report += $"Crash Report {DateTime.Now}";
+            report += $"/// {exception.Source} Crash Report {DateTime.Now} ///";
 
-            report += Utils.NewLine(exception.ToString());
+            report += Utils.LineSeparator + exception.ToString();
+            report += Utils.LineSeparator + "StackTrace:" + Environment.NewLine + exception.StackTrace;
 
-            report += Utils.NewLine(exception.TargetSite.ToString());
+            report += Utils.LineSeparator + $"/// System Details ///";
 
-            report += Utils.NewLine(exception.HelpLink);
+            report += Utils.LineSeparator + "Operating System: " + Environment.OSVersion;
+            report += Environment.NewLine + "Processor: " + Utils.GetHardwareInfo("Win32_Processor", "Name");
+            report += Environment.NewLine + $"Graphics Device: {Utils.GetHardwareInfo("Win32_VideoController", "Name")} {Utils.GetHardwareInfo("Win32_VideoController", "AdapterCompatibility")} {Utils.GetHardwareInfo("Win32_VideoController", "DriverVersion")}";
 
+            string[] physicalMemory = Utils.GetHardwareInfo("Win32_PhysicalMemory", "Capacity").Split(',');
+            long memory = Convert.ToInt64(physicalMemory[0]) + Convert.ToInt64(physicalMemory[1]);
+            report += Environment.NewLine + "Memory: " + memory + $" bytes ({memory / (1024 * 1024)} Mb)";
+            
             return report;
         }
 

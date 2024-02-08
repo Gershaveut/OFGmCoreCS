@@ -1,5 +1,6 @@
 ﻿using OFGmCoreCS.Util;
 using System;
+using System.Diagnostics;
 
 namespace OFGmCoreCS.LoggerSimple
 {
@@ -50,10 +51,13 @@ namespace OFGmCoreCS.LoggerSimple
                 message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
 
             if (consoleOutput)
+            {
                 Console.WriteLine(message);
+                Debug.WriteLine(message);
+            }
 
             if (Text != "")
-                message = Utils.NewLine(message);
+                message = Environment.NewLine + message;
 
             if ((level == LoggerLevel.Debug && debug) || level != LoggerLevel.Debug)
                 Text += message;

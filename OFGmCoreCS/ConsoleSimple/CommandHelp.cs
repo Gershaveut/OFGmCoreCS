@@ -1,4 +1,5 @@
 ﻿using OFGmCoreCS.LoggerSimple;
+using OFGmCoreCS.Util;
 using System;
 
 namespace OFGmCoreCS.ConsoleSimple
@@ -28,7 +29,7 @@ namespace OFGmCoreCS.ConsoleSimple
 
                         if (abstractCommand.argsInputs != null)
                         {
-                            help = abstractCommand.description + Environment.NewLine + Environment.NewLine + abstractCommand.name;
+                            help = abstractCommand.description + Utils.LineSeparator + abstractCommand.name;
 
                             foreach (ArgsInput argInput in abstractCommand.argsInputs)
                             {
