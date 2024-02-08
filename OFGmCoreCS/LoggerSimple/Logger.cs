@@ -1,15 +1,10 @@
-﻿using System;
+﻿using OFGmCoreCS.Util;
+using System;
 
 namespace OFGmCoreCS.LoggerSimple
 {
-    /// <summary>
-    /// Класс <see cref="Logger"/> предоставляет простой логгер.
-    /// </summary>
     public class Logger
     {
-        /// <summary>
-        /// Текст лога.
-        /// </summary>
         private string text = "";
 
         public string Text
@@ -18,46 +13,21 @@ namespace OFGmCoreCS.LoggerSimple
             set { text = value; LogChange?.Invoke(value); }
         }
 
-        /// <summary>
-        /// Делегат обработчика лога.
-        /// </summary>
         public delegate void ChangeHandler(string message);
-
         public delegate void WrittenHandler(string message, LoggerLevel level);
 
-        /// <summary>
-        /// Событие изменения лога.
-        /// </summary>
         public event ChangeHandler LogChange;
-
         public event WrittenHandler LogWritten;
 
-        /// <summary>
-        /// Вывод в консоль.
-        /// </summary>
+        public FileLogger fileLogger;
+
         public bool consoleOutput;
-
         public bool messageMod;
-
-        /// <summary>
-        /// Вывод сообщений с уровнем <see cref="LoggerLevel.Debug"/> в лог.
-        /// </summary>
         public bool debug;
 
-        /// <summary>
-        /// Префикс, добавляемый в начало записи лога.
-        /// </summary>
         public string prefix;
-
-        /// <summary>
-        /// Суффикс, добавляемый в конец записи лога.
-        /// </summary>
         public string suffix;
 
-        /// <summary>
-        /// Создаёт логгер с переданными параметрами.
-        /// </summary>
-        /// <param name="loggerProperties">Настройки логгера.</param>
         public Logger(Properties loggerProperties)
         {
             consoleOutput = loggerProperties.consoleOutput;
@@ -65,19 +35,20 @@ namespace OFGmCoreCS.LoggerSimple
             prefix = loggerProperties.prefix;
             suffix = loggerProperties.suffix;
             messageMod = loggerProperties.messageMod;
+
+            LogChange += SaveLog;
         }
 
-        /// <summary>
-        /// Записывает сообщение в лог с указанным уровнем логирования.
-        /// </summary>
-        /// <param name="message">Сообщение для записи в лог.</param>
-        /// <param name="level">Уровень логирования.</param>
-        /// <returns>Записанное сообщение.</returns>
+        public Logger(Properties loggerProperties, FileLogger fileLogger) : this(loggerProperties)
+        {
+            this.fileLogger = fileLogger;
+        }
+
         public string Write(string message, LoggerLevel level)
         {
             if (messageMod)
                 message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
-            
+
             if (consoleOutput)
                 Console.WriteLine(message);
 
@@ -90,39 +61,26 @@ namespace OFGmCoreCS.LoggerSimple
             LogWritten?.Invoke(message, level);
             return message;
         }
+
+        public void SaveLog(string text)
+        {
+            if (fileLogger != null)
+            {
+                fileLogger.FileText = text;
+                fileLogger.SaveLatest();
+                fileLogger.SaveFile();
+            }
+        }
         
-        /// <summary>
-        /// Вложенный класс для настройки логгера.
-        /// </summary>
         public class Properties
         {
-            /// <summary>
-            /// Вывод в консоль.
-            /// </summary>
             internal bool consoleOutput = true;
-
             internal bool messageMod = true;
-
-            /// <summary>
-            /// Вывод сообщений с уровнем <see cref="LoggerLevel.Debug"/> в лог.
-            /// </summary>
             internal bool debug;
 
-            /// <summary>
-            /// Префикс, добавляемый в начало записи лога.
-            /// </summary>
             internal string prefix;
-
-            /// <summary>
-            /// Суффикс, добавляемый в конец записи лога.
-            /// </summary>
             internal string suffix;
 
-            /// <summary>
-            /// Значение <see cref="consoleOutput"/>.
-            /// </summary>
-            /// <param name="consoleOutput">Вывод в консоль.</param>
-            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
             public Properties ConsoleOutput(bool consoleOutput)
             {
                 this.consoleOutput = consoleOutput;
@@ -135,32 +93,18 @@ namespace OFGmCoreCS.LoggerSimple
                 return this;
             }
 
-            /// <summary>
-            /// Включает отладочный режим.
-            /// </summary>
-            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
             public Properties Debug()
             {
                 debug = true;
                 return this;
             }
 
-            /// <summary>
-            /// Устанавливает префикс для каждой записи лога.
-            /// </summary>
-            /// <param name="text">Текст префикса.</param>
-            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
             public Properties Prefix(string text)
             {
                 prefix = text;
                 return this;
             }
 
-            /// <summary>
-            /// Устанавливает суффикс для каждой записи лога.
-            /// </summary>
-            /// <param name="text">Текст суффикса.</param>
-            /// <returns>Свой экземпляр <see cref="Properties"/>.</returns>
             public Properties Suffix(string text)
             {
                 suffix = text;
