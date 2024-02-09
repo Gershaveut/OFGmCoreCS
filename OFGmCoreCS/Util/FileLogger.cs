@@ -29,6 +29,8 @@ namespace OFGmCoreCS.Util
         {
             this.loggerPath = loggerPath;
             this.fileName = fileName == "" ? fileName : fileName + "-";
+
+            Directory.CreateDirectory(loggerPath);
         }
 
         public FileLogger(string fileName) : this(fileName, Directory.GetCurrentDirectory())

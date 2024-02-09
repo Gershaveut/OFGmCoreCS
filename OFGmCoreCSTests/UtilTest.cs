@@ -23,6 +23,8 @@ namespace OFGmCoreCSTests
         [TestMethod]
         public void TestCrashReporter()
         {
+            Directory.CreateDirectory(logsDirectory);
+
             try
             {
                 throw new Exception();

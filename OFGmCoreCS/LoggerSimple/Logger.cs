@@ -37,7 +37,7 @@ namespace OFGmCoreCS.LoggerSimple
             suffix = loggerProperties.suffix;
             messageMod = loggerProperties.messageMod;
 
-            LogChange += SaveLog;
+            LogWritten += SaveLatest;
         }
 
         public Logger(Properties loggerProperties, FileLogger fileLogger) : this(loggerProperties)
@@ -66,13 +66,11 @@ namespace OFGmCoreCS.LoggerSimple
             return message;
         }
 
-        public void SaveLog(string text)
+        public void SaveLatest(string text, LoggerLevel level)
         {
             if (fileLogger != null)
             {
-                fileLogger.FileText = text;
-                fileLogger.SaveLatest();
-                fileLogger.SaveFile();
+                fileLogger.WriteLine(text);
             }
         }
         
