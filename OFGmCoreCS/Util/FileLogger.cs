@@ -78,13 +78,18 @@ namespace OFGmCoreCS.Util
             SaveLatest(FileText);
         }
 
-        public void WriteLine(string text)
+        public void Write(string text)
         {
-            FileText += Environment.NewLine + text;
+            FileText += text;
 
             FileWritten?.Invoke(FileText);
 
             SaveLatest();
+        }
+
+        public void WriteLine(string text)
+        {
+            Write(Environment.NewLine + text);
         }
     }
 }

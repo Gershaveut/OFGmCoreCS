@@ -70,7 +70,7 @@ namespace OFGmCoreCS.LoggerSimple
         {
             if (fileLogger != null)
             {
-                fileLogger.WriteLine(text);
+                fileLogger.Write(text);
             }
         }
         
