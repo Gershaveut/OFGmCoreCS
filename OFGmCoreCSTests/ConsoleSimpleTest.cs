@@ -26,6 +26,26 @@ namespace OFGmCoreCSTests
             handler.ExecuteCommand("test");
         }
 
+        [TestMethod]
+        public void TestCommandsHistory()
+        {
+            CommandHandler handler = new CommandHandler();
+
+            handler.ExecuteCommand("help 1");
+            handler.ExecuteCommand("help 2");
+            handler.ExecuteCommand("help 3");
+            handler.ExecuteCommand("help 4");
+            handler.ExecuteCommand("help 5");
+
+            System.Console.WriteLine(Utils.AssertReturn("help 5", handler.GetPrevious()));
+            System.Console.WriteLine(Utils.AssertReturn("help 4", handler.GetPrevious()));
+            System.Console.WriteLine(Utils.AssertReturn("help 3", handler.GetPrevious()));
+
+            System.Console.WriteLine(Utils.AssertReturn("help 4", handler.GetNext()));
+            System.Console.WriteLine(Utils.AssertReturn("help 5", handler.GetNext()));
+            System.Console.WriteLine(Utils.AssertReturn("help 1", handler.GetNext()));
+        }
+
         class TestCommand : AbstractCommand
         {
             public TestCommand() : base("test", "Test command.", null)

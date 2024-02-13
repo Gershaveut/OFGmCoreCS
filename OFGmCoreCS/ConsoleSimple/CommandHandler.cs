@@ -9,6 +9,9 @@ namespace OFGmCoreCS.ConsoleSimple
 {
     public class CommandHandler
     {
+        public string currentHistory;
+        public readonly LinkedList<string> commandsHistory = new LinkedList<string>();
+
         private readonly HashSet<AbstractCommand> commands = new HashSet<AbstractCommand>();
 
         public ReadOnlyCollection<AbstractCommand> Commands { get { return commands.ToList().AsReadOnly(); } }
@@ -35,8 +38,25 @@ namespace OFGmCoreCS.ConsoleSimple
             return command;
         }
 
+        public string GetNext()
+        {
+            var currentNode = commandsHistory.Find(currentHistory);
+            currentHistory = currentHistory = (currentNode != null && currentNode.Next != null) ? currentNode.Next.Value : commandsHistory.First.Value;
+            return currentHistory;
+        }
+
+        public string GetPrevious()
+        {
+            var currentNode = commandsHistory.Find(currentHistory);
+            currentHistory = (currentNode != null && currentNode.Previous != null) ? currentNode.Previous.Value : commandsHistory.Last.Value;
+            return currentHistory;
+        }
+
         public AbstractCommand.Feedback ExecuteCommand(string command)
         {
+            if (commandsHistory.All(c => c != command))
+                commandsHistory.AddLast(command);
+
             string[] args = command.ToLower().Split(' ');
             string commandName = args[0].ToUpper();
             args = args.Skip(1).ToArray();
