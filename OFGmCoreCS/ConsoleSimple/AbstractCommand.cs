@@ -18,6 +18,10 @@ namespace OFGmCoreCS.ConsoleSimple
             needArgs = argsInputs != null ? argsInputs.Length : 0;
         }
 
+        public AbstractCommand(string name, string description) : this(name, description, null)
+        {
+        }
+
         public virtual Feedback Execute(string[] args)
         {
             if (args.Length < needArgs)
