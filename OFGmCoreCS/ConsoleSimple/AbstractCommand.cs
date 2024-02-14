@@ -42,8 +42,10 @@ namespace OFGmCoreCS.ConsoleSimple
             }
         }
 
-        public class Feedback
+        public struct Feedback
         {
+            public static Feedback empty = new Feedback("", LoggerLevel.Info);
+
             public string message;
             public LoggerLevel loggerLevel;
 
@@ -51,6 +53,10 @@ namespace OFGmCoreCS.ConsoleSimple
             {
                 this.message = message;
                 this.loggerLevel = loggerLevel;
+            }
+
+            public Feedback(string message) : this(message, LoggerLevel.Info)
+            {
             }
         }
     }
