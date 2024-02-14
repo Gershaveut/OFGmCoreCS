@@ -60,10 +60,11 @@ namespace OFGmCoreCS.ConsoleSimple
 
         public AbstractCommand.Feedback ExecuteCommand(string command)
         {
+            currentHistory = "";
             if (commandsHistory.All(c => c != command))
                 commandsHistory.AddLast(command);
 
-            string[] args = command.ToLower().Split(' ');
+            string[] args = command.Split(' ');
             string commandName = args[0].ToUpper();
             args = args.Skip(1).ToArray();
 
@@ -76,11 +77,11 @@ namespace OFGmCoreCS.ConsoleSimple
                     try
                     {
                         AbstractCommand.Feedback feedback = abstractCommand.Execute(args);
-                        return new AbstractCommand.Feedback(feedback.message + Environment.NewLine, feedback.loggerLevel);
+                        return feedback.Equals(AbstractCommand.Feedback.empty) ? AbstractCommand.Feedback.empty : new AbstractCommand.Feedback(feedback.message + Environment.NewLine, feedback.loggerLevel);
                     }
                     catch (Exception ex)
                     {
-                        return new AbstractCommand.Feedback(ex.Message, LoggerLevel.Error);
+                        return new AbstractCommand.Feedback(ex.Message + Environment.NewLine, LoggerLevel.Error);
                     }
                 }
             }
