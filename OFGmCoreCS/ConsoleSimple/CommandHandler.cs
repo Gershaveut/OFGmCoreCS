@@ -52,6 +52,12 @@ namespace OFGmCoreCS.ConsoleSimple
             return currentHistory;
         }
 
+        public void ClearHistory()
+        {
+            currentHistory = null;
+            commandsHistory.Clear();
+        }
+
         public AbstractCommand.Feedback ExecuteCommand(string command)
         {
             if (commandsHistory.All(c => c != command))

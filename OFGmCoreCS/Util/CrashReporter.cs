@@ -29,7 +29,9 @@ namespace OFGmCoreCS.Util
             report.AppendLine($"Graphics Device: {Utils.GetHardwareInfo("Win32_VideoController", "Name")} {Utils.GetHardwareInfo("Win32_VideoController", "AdapterCompatibility")} {Utils.GetHardwareInfo("Win32_VideoController", "DriverVersion")}");
 
             string[] physicalMemory = Utils.GetHardwareInfo("Win32_PhysicalMemory", "Capacity").Split(',');
-            long memory = Convert.ToInt64(physicalMemory[0]) + Convert.ToInt64(physicalMemory[1]);
+            long memory = 0;
+            foreach (string memorys in physicalMemory)
+                memory += Convert.ToInt64(memorys);
             report.AppendLine($"Memory: {memory} bytes ({memory / (1024 * 1024)} Mb)");
 
             if (!string.IsNullOrEmpty(additionally))
