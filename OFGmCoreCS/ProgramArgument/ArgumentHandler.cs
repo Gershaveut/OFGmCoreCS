@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OFGmCoreCS.Util;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace OFGmCoreCS.ProgramArgument
 {
@@ -43,14 +43,8 @@ namespace OFGmCoreCS.ProgramArgument
 
         public static void IsDouble(IArgument argument, string arg)
         {
-            NumberFormatInfo provider = new NumberFormatInfo
-            {
-                NumberDecimalSeparator = ".",
-                NumberGroupSeparator = ","
-            };
-
             if (argument is Argument<double> argumentType)
-                ArgumentInvoke(argumentType, Convert.ToDouble(arg, provider));
+                ArgumentInvoke(argumentType, Convert.ToDouble(arg, Utils.simpleProvider));
         }
 
         public void ArgumentInvoke(string argumentName)
