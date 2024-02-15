@@ -19,11 +19,13 @@ namespace OFGmCoreCSTests
         [TestMethod]
         public void TestCommandRegister()
         {
-            CommandHandler handler = new CommandHandler();
+            Console console = new Console(new Logger(new Logger.Properties().Debug().MessageMod(false)));
 
-            handler.Register(new TestCommand());
+            console.commandHandler.Register(new TestCommand());
 
-            handler.ExecuteCommand("test");
+            console.CommandWrite("test test");
+            console.CommandWrite("help test");
+            console.CommandWrite("help");
         }
 
         [TestMethod]
@@ -48,7 +50,7 @@ namespace OFGmCoreCSTests
 
         class TestCommand : AbstractCommand
         {
-            public TestCommand() : base("test", "Test command.", null)
+            public TestCommand() : base("test", "Test command.", new ArgsInput("test(test)", "test"), new ArgsInput("test1", "test"), new ArgsInput("test12", "test"), new ArgsInput("test123", "test"))
             {
 
             }

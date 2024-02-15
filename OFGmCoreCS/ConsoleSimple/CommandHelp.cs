@@ -1,6 +1,7 @@
 ﻿using OFGmCoreCS.LoggerSimple;
 using OFGmCoreCS.Util;
 using System;
+using System.Linq;
 
 namespace OFGmCoreCS.ConsoleSimple
 {
@@ -38,7 +39,9 @@ namespace OFGmCoreCS.ConsoleSimple
 
                             foreach (ArgsInput argInput in abstractCommand.argsInputs)
                             {
-                                help += Environment.NewLine + $"  {argInput.name} - {argInput.description}";
+                                char[] separator = new char[] { '[', '{', '<', '(' };
+                                string name = argInput.name.Split(separator)[0];
+                                help += Environment.NewLine + $"  {name} {string.Concat(Enumerable.Repeat(" ", abstractCommand.argsInputs.Max(a => a.name.Split(separator)[0].Length) - name.Length))}- {argInput.description}";
                             }
                         }
                         else
@@ -55,7 +58,7 @@ namespace OFGmCoreCS.ConsoleSimple
                 string commands = $"To get information about a specific command, type {name} {argsInputs[0].name}" + Environment.NewLine;
 
                 foreach (AbstractCommand abstractCommand in commandHandler.Commands)
-                    commands += Environment.NewLine + $"{abstractCommand.name} - {abstractCommand.description}";
+                    commands += Environment.NewLine + $"{abstractCommand.name} {string.Concat(Enumerable.Repeat(" ", commandHandler.Commands.Max(c => c.name.Length) - abstractCommand.name.Length))}- {abstractCommand.description}";
 
                 return new Feedback(commands, LoggerLevel.Info);
             }
