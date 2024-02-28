@@ -33,7 +33,7 @@ namespace OFGmCoreCS.Util
             Directory.CreateDirectory(loggerPath);
         }
 
-        public FileLogger(string fileName) : this(fileName, Directory.GetCurrentDirectory())
+        public FileLogger(string fileName) : this(fileName, Path.Combine(Directory.GetCurrentDirectory(), "log"))
         {
 
         }
