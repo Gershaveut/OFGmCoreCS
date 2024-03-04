@@ -51,20 +51,22 @@ namespace OFGmCoreCS.LoggerSimple
         {
             if (messageMod)
                 message = prefix + $"[{DateTime.Now.ToLongTimeString()}] [{level.ToString().ToUpperInvariant()}] {message}" + suffix;
-
-            if (consoleOutput)
-            {
-                Console.WriteLine(message);
-                Debug.WriteLine(message);
-            }
-
+            
             if (Text != "")
                 message = Environment.NewLine + message;
 
             if ((level == LoggerLevel.Debug && debug) || level != LoggerLevel.Debug)
-                Text += message;
+            {
+                if (consoleOutput)
+                {
+                    Console.WriteLine(message);
+                    Debug.WriteLine(message);
+                }
 
-            LogWritten?.Invoke(message, level);
+                Text += message;
+                LogWritten?.Invoke(message, level);
+            }
+            
             return message;
         }
 
