@@ -8,6 +8,13 @@ namespace OFGmCoreCS.Util
 {
     public static class Utils
     {
+        internal const string OFGmCoreCS = "\r\n ██████╗ ███████╗ ██████╗ ███╗   ███╗     ██████╗ ██████╗ ██████╗ ███████╗     ██████╗ ██╗ ██╗ " +
+                                           "\r\n██╔═══██╗██╔════╝██╔════╝ ████╗ ████║    ██╔════╝██╔═══██╗██╔══██╗██╔════╝    ██╔════╝████████╗" +
+                                           "\r\n██║   ██║█████╗  ██║  ███╗██╔████╔██║    ██║     ██║   ██║██████╔╝█████╗      ██║     ╚██╔═██╔╝" +
+                                           "\r\n██║   ██║██╔══╝  ██║   ██║██║╚██╔╝██║    ██║     ██║   ██║██╔══██╗██╔══╝      ██║     ████████╗" +
+                                           "\r\n╚██████╔╝██║     ╚██████╔╝██║ ╚═╝ ██║    ╚██████╗╚██████╔╝██║  ██║███████╗    ╚██████╗╚██╔═██╔╝" +
+                                           "\r\n ╚═════╝ ╚═╝      ╚═════╝ ╚═╝     ╚═╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝ ╚═╝ " ;
+
         public static string LineSeparator = Environment.NewLine + Environment.NewLine;
 
         public static NumberFormatInfo simpleProvider = new NumberFormatInfo

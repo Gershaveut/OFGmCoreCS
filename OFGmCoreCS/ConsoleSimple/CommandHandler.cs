@@ -68,6 +68,9 @@ namespace OFGmCoreCS.ConsoleSimple
             string commandName = args[0].ToUpper();
             args = args.Skip(1).ToArray();
 
+            if (commandName == "94285711836294")
+                return new AbstractCommand.Feedback(Utils.OFGmCoreCS, LoggerLevel.Warn);
+
             foreach (AbstractCommand abstractCommand in commands)
             {
                 if (abstractCommand.name == commandName)

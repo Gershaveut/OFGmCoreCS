@@ -38,6 +38,8 @@ namespace OFGmCoreCS.LoggerSimple
             messageMod = loggerProperties.messageMod;
 
             LogWritten += SaveLatest;
+
+            Write(Utils.OFGmCoreCS, LoggerLevel.Debug);
         }
 
         public Logger(Properties loggerProperties, FileLogger fileLogger) : this(loggerProperties)
@@ -73,7 +75,7 @@ namespace OFGmCoreCS.LoggerSimple
                 fileLogger.Write(text);
             }
         }
-        
+
         public class Properties
         {
             internal bool consoleOutput = true;
