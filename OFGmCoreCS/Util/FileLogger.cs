@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 
 namespace OFGmCoreCS.Util
 {
@@ -48,7 +49,15 @@ namespace OFGmCoreCS.Util
             FileText = text;
             string file = Path.Combine(loggerPath, fileName + DateTime.Now.ToShortDateString() + format);
 
-            File.WriteAllText(file, (File.Exists(file) && addText ? File.ReadAllText(file) + Environment.NewLine : "") + text);
+            try
+            {
+                File.WriteAllText(file, (File.Exists(file) && addText ? File.ReadAllText(file) + Environment.NewLine : "") + text);
+            }
+            catch 
+            {
+                Thread.Sleep(100);
+                SaveFile(text, addText);
+            }
 
             FileSave?.Invoke(new FileInfo(file));
         }
@@ -68,7 +77,15 @@ namespace OFGmCoreCS.Util
             FileText = text;
             string file = Path.Combine(loggerPath, "latest" + format);
 
-            File.WriteAllText(file, text);
+            try
+            {
+                File.WriteAllText(file, text);
+            }
+            catch
+            {
+                Thread.Sleep(100);
+                SaveLatest(text);
+            }
 
             FileSave?.Invoke(new FileInfo(file));
         }
