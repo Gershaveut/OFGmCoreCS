@@ -4,11 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>OFGm Core C#</Title>
     <Company>$(Autors)</Company>
-    <AssemblyVersion>2.1.1.0</AssemblyVersion>
-    <FileVersion>2.1.1.0</FileVersion>
+    <AssemblyVersion>2.1.2.0</AssemblyVersion>
+    <FileVersion>2.1.2.0</FileVersion>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Authors>OFGm Studio</Authors>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <Product>$(Title)</Product>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
